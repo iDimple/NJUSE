@@ -1,0 +1,11 @@
+            .DATA	X30000000
+CHAR :      .WORD   X61626364
+HELLOWORLD :.ASCIIZ "HELLO,WORLD!"
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R1, R0, #0
+            ADDI    R4, R0, CHAR
+            SW      4(R4), R1
+            TRAP    X08
+EXIT :      TRAP    X00
+

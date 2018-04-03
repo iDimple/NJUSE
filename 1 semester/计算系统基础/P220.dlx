@@ -1,0 +1,71 @@
+;输入服务例程
+            .DATA	X00003000
+SAVER1 :    .SPACE  4
+SAVER2 :    .SPACE  4
+SAVER3 :    .SPACE  4
+SAVER5 :    .SPACE  4
+KBSR :      .WORD   XFFFF0000
+KBDR :      .WORD   XFFFF0004
+DSR :       .WORD   XFFFF0008
+DDR :       .WORD   XFFFF000C
+NEWLINE :   .BYTE   X0A
+PROMPT :    .ASCIIZ "INPUTACHARACTER>"
+		;
+            .TEXT   X00003100
+            SW      SAVER1(R0), R1
+            SW      SAVER2(R0), R2
+            SW      SAVER3(R0), R3
+            SW      SAVER5(R0), R5
+            LB      R2, NEWLINE(R0)
+            LW      R5, DSR(R0)
+L1 :        LW      R3, 0(R5)
+            ANDI    R3, R3, #1
+            BEQZ    R3, L1
+            LW      R5, DDR(R0)
+            SW      0(R5), R2
+		;
+            ADDI    R1, R0, PROMPT
+LOOP :      LB      R2, 0(R1)
+            BEQZ    R2, INPUT
+            LW      R5, DSR(R0)
+L2 :        LW      R3, 0(R5)
+            ANDI    R3, R3, #1
+            BEQZ    R3, L2
+            LW      R5, DDR(R0)
+            SW      0(R5), R2
+            ADDI    R1, R1, #1
+            J       LOOP
+		;
+INPUT :     LW      R5, KBSR(R0)
+L3 :        LW      R3, 0(R5)
+            ANDI    R3, R3, #1
+            BEQZ    R3, L3
+            LW      R5, KBSR(R0)
+            LW      R4, 0(R5)
+            LW      R5, DSR(R0)
+L4 :        LW      R3, 0(R5)
+            ANDI    R3, R3, #1
+            BEQZ    R3, L4
+            LW      R5, DDR(R0)
+            SW      0(R5), R4
+		;
+            LB      R2, NEWLINE(R0)
+            LW      R5, DSR(R0)
+L5 :        LW      R3, 0(R5)
+            ANDI    R3, R3, #1
+            BEQZ    R3, L5
+            LW      R4, DDR(R0)
+            SW      0(R5), R2
+
+            LW      R1, SAVER1(R0)
+            LW      R2, SAVER1(R0)
+            LW      R3, SAVER1(R0)
+            LW      R5, SAVER1(R0)
+            JR      R31
+
+
+
+
+
+
+

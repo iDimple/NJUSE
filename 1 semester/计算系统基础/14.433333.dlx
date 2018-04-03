@@ -1,0 +1,77 @@
+            .DATA	x30000000
+ASCIIBUFF : .SPACE  4
+LOOKUP10 :  .WORD   0, 10, 20, 30, 40, 50, 60, 70, 80, 90
+LOOKUP100 : .WORD   0, 100, 200, 300, 400, 500, 600, 700, 800, 900
+LOOKUP16 :  .WORD   0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240
+LOOKUP256 : .WORD   0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584, 3840
+SAVER1 :    .SPACE  4
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      SW      SAVER1(R0), R1
+            ADDI    R16, R0, #0
+            ADDI    R4, R0, ASCIIBUFF
+            LB      R8, #0(R4)
+            SEQI    R17, R8, x78
+            BNEZ    R17, SIXTEEN
+            ADD     R4, R4, R1
+            SUBI    R4, R4, #1
+            LB      R9, #0(R4)
+            SUBI    R9, R9, x30
+            ADD     R16, R16, R9
+            SUBI    R1, R1, #1
+            BEQZ    R1, LOOP
+            SUBI    R4, R4, #1
+            LB      R9, #0(R4)
+            SUBI    R9, R9, x30
+            ADDI    R10, R0, LOOKUP10
+            SLLI    R9, R9, #2
+            ADD     R10, R10, R9
+            LW      R9, #0(R10)
+            ADD     R16, R16, R9
+            SUBI    R1, R1, #1
+            BEQZ    R1, LOOP
+            SUBI    R4, R4, #1
+            LB      R9, #0(R4)
+            SUBI    R9, R9, x30
+            ADDI    R10, R0, LOOKUP100
+            SLLI    R9, R9, #2
+            ADD     R10, R10, R9
+            LW      R9, #0(R10)
+            ADD     R16, R16, R9
+LOOP :      LW      R1, SAVER1(R0)
+            TRAP    x00
+SIXTEEN :   ADD     R4, R4, R1
+            LB      R9, #0(R4)
+            JAL     EXAM
+            ADD     R16, R16, R9
+            SUBI    R1, R1, #1
+            BEQZ    R1, LOOP
+            SUBI    R4, R4, #1
+            LB      R9, #0(R4)
+            JAL     EXAM
+            ADDI    R10, R0, LOOKUP16
+            SLLI    R9, R9, #2
+            ADD     R10, R10, R9
+            LW      R9, #0(R10)
+            ADD     R16, R16, R9
+            SUBI    R1, R1, #1
+            BEQZ    R1, LOOP
+            SUBI    R4, R4, #1
+            LB      R9, #0(R4)
+            JAL     EXAM
+            ADDI    R10, R0, LOOKUP256
+            SLLI    R9, R9, #2
+            ADD     R10, R10, R9
+            LW      R9, #0(R10)
+            ADD     R16, R16, R9
+            J       LOOP
+EXAM :      SLEI    R15, R9, #57
+            BNEZ    R15, NUMBER
+            SLEI    R15, R9, #70
+            BNEZ    R15, UPPER
+            SUBI    R9, R9, #87
+            RET     
+NUMBER :    SUBI    R9, R9, x30
+            RET     
+UPPER :     SUBI    R9, R9, #55
+            RET     

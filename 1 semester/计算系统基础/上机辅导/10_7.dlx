@@ -1,0 +1,24 @@
+            .DATA	x30000000
+A :         .WORD   100
+B :         .WORD   33
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      LW      R8, B(R0)
+            LW      R9, A(R0)
+            ADDI    R1, R9, #0
+            ADDI    R2, R8, #0
+            ADDI    R3, R0, #0
+AGAIN :     SLEI    R4, R1, #0
+            BNEZ    R4, EXIT
+            SUB     R1, R1, R2
+            ADDI    R3, R3, #1
+            J       AGAIN
+EXIT :      SLTI    R5, R1, #0
+            BEQZ    R5, DONE
+            ADD     R1, R1, R2
+            SUBI    R3, R3, #1
+DONE :      ADDI    R10, R3, #0
+            ADDI    R11, R1, #0
+            TRAP    x00
+
+

@@ -1,0 +1,22 @@
+            .DATA	X30000000
+            .ASCII  "A11B22C£¬DdD"
+            .BYTE   X04
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R6, R0, #0
+            TRAP    X09
+            LHI     R2, X3000
+            LB      R1, 0(R2)		;×Ö·û
+TEST :      SEQI    R3, R1, X04
+            BNEZ    R3, OUTPUT
+            SEQ     R5, R4, R1
+            BEQZ    R5, A
+            ADDI    R6, R6, #1
+A :         ADDI    R2, R2, #1
+            LB      R1, 0(R2)
+            J       TEST
+OUTPUT :    ADDI    R4, R6, X30
+            TRAP    X07
+            TRAP    X00
+
+

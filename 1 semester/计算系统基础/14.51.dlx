@@ -1,0 +1,56 @@
+		;这个算法将一个范围在0到+999之间
+		;的二进制补码整数转换为一个由
+		;3个十进制数位组成的ascii码字符串
+		;r2里包含的是最初要转换的数
+		;
+            .DATA	X30000000
+ASCIIBUFF : .SPACE  4
+SAVER1 :    .SPACE  4
+SAVER2 :    .SPACE  4
+SAVER3 :    .SPACE  4
+SAVER4 :    .SPACE  4
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN :      SW      SAVER1(R0), R1
+            SW      SAVER2(R0), R2
+            SW      SAVER3(R0), R3
+            SW      SAVER4(R0), R4
+            ADDI    R4, R0, ASCIIBUFF
+		;
+BEGIN100 :  ADDI    R1, R0, X30
+            SLTI    R3, R2, #100
+            BNEZ    R3, A
+LOOP100 :   SLTI    R3, R2, #100
+            BNEZ    R3, BEGIN10
+            ADDI    R1, R1, #1
+            SUBI    R2, R2, #100
+            SB      0(R4), R1
+            J       LOOP100
+A :         SUBI    R4, R4, #1
+		;
+		;
+BEGIN10 :   ADDI    R1, R0, X30
+            SLTI    R3, R2, #10
+            BNEZ    R3, B
+LOOP10 :    SLTI    R3, R2, #10
+            BNEZ    R3, BEGIN1
+            ADDI    R1, R1, #1
+            SUBI    R2, R2, #10
+            SB      1(R4), R1
+            J       LOOP10
+B :         SUBI    R4, R4, #1
+		;
+		;
+		;
+BEGIN1 :    ADDI    R1, R2, X30
+            SB      2(R4), R1
+            LW      R1, SAVER1(R0)
+            LW      R2, SAVER2(R0)
+            LW      R3, SAVER3(R0)
+            LW      R4, SAVER4(R0)
+            TRAP    X00
+
+
+
+
+

@@ -1,0 +1,64 @@
+            .DATA	X30000000
+ASCIIBUFF : .SPACE  4
+LOOKUP10 :  .WORD   0, 10, 20, 30, 40, 50, 60, 70, 80, 90
+LOOKUP100 : .WORD   0, 100, 200, 300, 400, 500, 600, 700, 800, 900
+SAVER1 :    .SPACE  4
+SAVER2 :    .SPACE  4
+SAVER3 :    .SPACE  4
+SAVER4 :    .SPACE  4
+SAVER5 :    .SPACE  4
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN : 
+ASCIITOBINARY :SW      SAVER1(R0), R1
+            SW      SAVER3(R0), R3
+            SW      SAVER4(R0), R4
+            SW      SAVER5(R0), R5
+            ADDI    R2, R0, #0
+            BEQZ    R1, DONEASCIITOBINARY
+		;
+            ADDI    R4, R0, ASCIIBUFF
+            ADD     R4, R4, R1
+            SUBI    R4, R4, #1
+		;
+            LB      R3, 0(R4)
+            SUBI    R3, R3, X30
+            ADD     R2, R2, R3
+		;
+            SUBI    R1, R1, #1
+            BEQZ    R1, DONEATOB
+            SUBI    R4, R4, #1
+		;
+            LB      R3, 0(R4)
+            SUBI    R3, R3, X30
+            ADDI    R5, R0, LOOKUP10
+            SLLI    R3, R3, #2
+            ADD     R5, R5, R3
+            LW      R3, 0(R5)
+            ADD     R2, R2, R3
+		;
+            SUBI    R1, R1, #1
+            BEQZ    R1, DONEATOB
+            SUBI    R4, R4, #1
+		;
+            LB      R3, 0(R4)
+            SUBI    R3, R3, X30
+            ADDI    R5, R0, LOOKUP100
+            SLLI    R3, R3, #2
+            ADD     R5, R5, R3
+            LW      R3, 0(R5)
+            ADD     R2, R2, R3
+		;
+DONEATOB :  LW      R1, SAVER1(R0)
+            LW      R3, SAVER3(R0)
+            LW      R4, SAVER4(R0)
+            LW      R5, SAVER5(R0)
+            RET     
+            TRAP    X00
+
+
+
+
+
+
+

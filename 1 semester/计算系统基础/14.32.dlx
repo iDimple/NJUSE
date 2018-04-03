@@ -1,0 +1,14 @@
+            .DATA	X30000000
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN :      TRAP    X09
+            ADDI    R1, R4, #0
+            TRAP    X09
+            ADD     R4, R4, R1
+            SLEI    R5, R4, #105
+            BNEZ    R5, EXIT
+            ADDI    R4, R4, #7
+EXIT :      SUBI    R4, R4, X30
+            TRAP    X07
+            TRAP    X00
+

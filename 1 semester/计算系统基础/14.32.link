@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DLXObject>
+<Data>
+	<DataTable Base='805306368' Length='0'>
+	</DataTable>
+	<DataContent></DataContent>
+</Data>
+<Text>
+
+	<TextTable Base='1073741824' Length='40'>
+		<Symbol name='MAIN' isGlobal='True' isExtern='False' >0</Symbol>
+		<Symbol name='EXIT' isGlobal='False' isExtern='False' >28</Symbol>
+	</TextTable>
+	<TextContent>35 #9 1 1 4 #0 35 #9 0 4 4 1 19 5 4 #105 30 5 EXIT 1 4 4 #7 3 4 4 #48 35 #7 35 #0 </TextContent>
+</Text>
+</DLXObject>

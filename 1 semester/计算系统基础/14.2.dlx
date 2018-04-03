@@ -1,0 +1,23 @@
+            .DATA	x30000000
+            .ASCIIZ "abcdDD,12"
+            .WORD   x04000000
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R6, R0, 0
+            LHI     R1, X3000
+LOOP :      LB      R2, 0(R1)
+            SEQI    R5, R2, X04
+            BNEZ    R5, EXIT
+            SLEI    R3, R2, X7A
+            BEQZ    R3, NEXT
+            SLTI    R8, R2, x61
+            BNEZ    R8, NEXT
+TOUPPER :   SUBI    R2, R2, X20
+NEXT :      SB      0(R1), R2
+            ADDI    R4, R2, 0
+            TRAP    X07
+            ADDI    R1, R1, #1
+            J       LOOP
+EXIT :      TRAP    X00
+
+

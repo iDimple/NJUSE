@@ -1,0 +1,19 @@
+		;搞清楚哪移一个寄存器比较方便,原来的不动
+		;只要移动31次
+            .DATA
+            .TEXT   
+            .GLOBAL  MAIN
+MAIN :      ADDI    R4, R0, #32
+            ADDI    R2, R0, #0
+            ADDI    R5, R0, #1
+LOOP :      AND     R3, R1, R5
+            BEQZ    R3, NEXT
+            ADDI    R2, R2, #1
+NEXT :      SLLI    R5, R5, #1
+            SUBI    R4, R4, #1
+            BEQZ    R4, EXIT
+            J       LOOP
+EXIT :      TRAP    X00
+
+
+

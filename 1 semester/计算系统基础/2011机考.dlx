@@ -1,0 +1,33 @@
+            .DATA	X30000000
+A :         .ASCIIZ "ABCD"
+            .ALIGN  5
+B :         .ASCIIZ "ABCD"
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN :      LHI     R8, X3000
+            ADDI    R9, R8, X20
+            LB      R10, 0(R8)		;R10放第一个字符串
+            LB      R11, 0(R9)		;r11放第二个字符串
+LOOP :      SEQ     R13, R10, R11
+            BneZ    R13, EXIT
+            SLT     R12, R10, R11
+            BNEZ    R12, EXIT1
+            J       EXIT2
+EXIT1 :     ADDI    R2, R0, #-1
+            TRAP    x00
+EXIT2 :     ADDI    R2, R0, #1
+            TRAP    x00
+EXIT :      ADDI    R9, R9, #1
+            ADDI    R8, R8, #1
+            LB      R10, 0(R8)
+            LB      R11, 0(R9)
+            BNEZ    R10, LOOP
+            BNEZ    R11, exit1
+            ADDI    R2, R0, #0
+            TRAP    x00
+
+
+
+
+
+

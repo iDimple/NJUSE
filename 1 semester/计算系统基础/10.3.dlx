@@ -1,0 +1,16 @@
+            .DATA	x30000000
+A :         .WORD   X41
+COUNT :     .WORD   #26
+            .TEXT   X40000000
+            .GLOBAL  MAIN
+MAIN :      LW      R4, A(R0)
+            LW      R1, COUNT(R0)
+AGAIN :     TRAP    X07
+            SUBI    R1, R1, #1
+            ADDI    R4, R4, #1
+            BEQZ    R1, EXIT
+            J       AGAIN
+EXIT :      TRAP    X00
+
+
+

@@ -1,0 +1,17 @@
+            .DATA	X30000000
+            .TEXT   X4000000
+
+            .GLOBAL  MAIN
+MAIN :      TRAP    X09
+            SUBI    R4, R4, X30
+            ADDI    R2, R0, #0		;F(N-2)
+            ADDI    R3, R0, #1		;F(N-1)
+            ADDI    R1, R0, #1		;F(N)
+LOOP :      BEQZ    R4, EXIT
+            ADD     R1, R2, R3		;F(N)=F(N-1)+F(N-2)
+            ADDI    R2, R3, #0
+            ADDI    R3, R1, #0
+            SUBI    R4, R4, #1
+            J       LOOP
+EXIT :      TRAP    X00
+
