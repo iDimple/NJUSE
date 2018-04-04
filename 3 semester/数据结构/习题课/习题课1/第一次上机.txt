@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+public class Ex{//组合的递归算法
+	public static int[] a = new int[100];
+	public static int sum = 0;
+	public static void main(String[] args){
+		Scanner input = new Scanner(System.in);
+		System.out.println("PLEASE ENTER AN INTEGER NUMBER:");
+		int n = input.nextInt();
+		System.out.println("PLEASE ENTER ANOTHER INTEGER NUMBER LESS THAN THE FIRST NUMBER:");
+		int k = input.nextInt();
+		input.close();
+		a[0] = k;//控制循环，初始化a[0]
+		com(n,k);
+		System.out.println("总共"+sum+"种组合。");
+	}
+
+	private static void com(int n, int k) {
+		int i,j;
+		if(k<0||k>n)
+			return;
+		for(i=n;i>=k;i--){
+			a[k] =i;
+			if(k>1){
+				com(i-1,k-1);
+			}else{
+				for(j = a[0];j>0;j--){
+					System.out.print(a[j]+" ");
+				    }
+				sum+=1;
+				System.out.println();
+			    }
+			}
+		}
+	}
+
+import java.util.Scanner;
+
+public class Ex {                  
+	//将前n-1个盘子递归地从A移到C
+	                              
+	//将盘子n从A移到B
+	                              
+	//将n-1个盘子递归地从C移到B
+	//从某种程度上讲，递归提供了某种层次的抽象，这种抽象对用户隐藏迭代和其他细节
+	public static void main(String[] args){
+		Scanner input = new Scanner(System.in);
+		System.out.println("PLEASE ENTER AN INTEGER NUMBER:");
+		int n = input.nextInt();
+		input.close();
+		System.out.println("THE MOVES ARE:");
+		moveDisks(n,'A','B','C');
+	}
+
+	private static void moveDisks(int n, char fromTower, char toTower, char auxTower) {
+		if(n==1){
+			System.out.println("Move disk "+n+" from "+fromTower+" to "+toTower);
+		}
+		else{
+			moveDisks(n-1,fromTower,auxTower,toTower);
+			System.out.println("Move disk "+n+" from "+fromTower+" to "+toTower);
+			moveDisks(n-1,auxTower,toTower,fromTower);
+		}
+	}
+}
+
+
+
